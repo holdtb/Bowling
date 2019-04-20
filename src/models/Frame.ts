@@ -1,18 +1,8 @@
+import { TRoll } from '../types';
 import Game from '../logic/Game';
+import TenthFrame from '../models/TenthFrame';
 
-type Gutter = 0;
-export type TStrike = 10;
-export type TRoll = Gutter | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | TStrike;
-
-export type TGameInput = {
-  rolls: Array<TRoll>;
-};
-
-export type TGameScore = {
-  total: Number;
-};
-
-export class Frame {
+export default class Frame {
   private _roll1?: TRoll;
   private _roll2?: TRoll;
   private _game: Game;
@@ -82,25 +72,5 @@ export class Frame {
 
   toString() {
     return `${this._roll1},${this._roll2}`;
-  }
-}
-
-export class TenthFrame extends Frame {
-  private _roll3?: TRoll;
-
-  constructor(game: Game) {
-    super(game);
-  }
-
-  get rollThree() {
-    return this._roll3;
-  }
-
-  set rollThree(roll) {
-    this._roll3 = roll;
-  }
-
-  get score() {
-    return (this.rollOne || 0) + (this.rollTwo || 0) + (this.rollThree || 0);
   }
 }

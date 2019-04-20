@@ -1,4 +1,7 @@
-import { TRoll, Frame, TenthFrame } from '../types/BowlingTypes';
+import { TRoll } from '../types';
+import Frame from '../models/Frame';
+import TenthFrame from '../models/TenthFrame';
+
 export default class Game {
   constructor() {
     this._rolls = [];
@@ -26,7 +29,7 @@ export default class Game {
   }
 
   private _calculateTotalScore() {
-    const rolls = this._rolls;
+    const rolls = this._rolls.slice(0); // clone rolls
     let frame = 0;
 
     while (rolls.length > 0) {
