@@ -52,4 +52,10 @@ describe('Given a game of bowling', () => {
     game.roll(10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10);
     expect(game.totalScore).toEqual(300);
   });
+
+  it('Catches invalid moves', () => {
+    const game = new Game();
+    const fn = () => game.roll(7, 4);
+    expect(fn).toThrowError('Invalid move.');
+  });
 });

@@ -1,14 +1,19 @@
 import { TRoll } from '../types';
 import Game from '../logic/Game';
-import TenthFrame from '../models/TenthFrame';
 
 export default class Frame {
   private _roll1?: TRoll;
   private _roll2?: TRoll;
   private _game: Game;
+  private _number: number;
 
-  constructor(game: Game) {
+  constructor(game: Game, number: number) {
     this._game = game;
+    this._number = number;
+  }
+
+  get number() {
+    return this._number;
   }
 
   get rollOne() {
@@ -35,17 +40,16 @@ export default class Frame {
   }
 
   private get strikeBonus() {
-    const frameIndex = this._game.frames.indexOf(this);
-    const bonus1 = this._game.frames[frameIndex + 1].rollOne;
+    const frames = this._game.frames;
+    const frameIndex = frames.indexOf(this);
+    const bonus1 = frames[frameIndex + 1].rollOne;
     let bonus2;
     if (bonus1 != 10) {
-      bonus2 = this._game.frames[frameIndex + 1].rollTwo;
+      bonus2 = frames[frameIndex + 1].rollTwo;
     } else {
-      if (frameIndex != 8) bonus2 = this._game.frames[frameIndex + 2].rollOne;
-      else {
-        let tenthFrame = this._game.frames[frameIndex + 1] as TenthFrame;
-        bonus2 = tenthFrame.rollTwo;
-      }
+      bonus2 =
+        (frames[frameIndex + 2] && frames[frameIndex + 2].rollOne) ||
+        frames[frameIndex + 1].rollTwo;
     }
     return (bonus1 || 0) + (bonus2 || 0);
   }

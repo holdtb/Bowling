@@ -24,7 +24,8 @@ class App extends Component<{}, AppState> {
 
   resetGame() {
     this.setState({
-      game: new Game()
+      game: new Game(),
+      totalScore: 0
     });
   }
 
@@ -43,7 +44,6 @@ class App extends Component<{}, AppState> {
       <div
         style={{ alignContent: 'center', textAlign: 'center', justifyContent: 'center' }}
         className="App">
-        <p>Lets Bowl!</p>
         <RollInputContainer onRoll={this.handleRoll} />
         <FrameDisplayContainer game={this.state.game} />
         Total score: {this.state.totalScore}

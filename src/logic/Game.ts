@@ -8,7 +8,7 @@ export default class Game {
     this._frames = [];
     const NUM_REG_FRAMES = 9;
     for (let i = 0; i < NUM_REG_FRAMES; i++) {
-      this._frames.push(new Frame(this));
+      this._frames.push(new Frame(this, i + 1));
     }
     this._frames.push(new TenthFrame(this));
   }
@@ -20,8 +20,9 @@ export default class Game {
     return this._frames;
   }
 
-  public roll(...rolls: TRoll[]): void {
+  public roll(...rolls: TRoll[]): number {
     this._rolls.push(...rolls);
+    return this.totalScore;
   }
 
   get totalScore() {
@@ -43,6 +44,7 @@ export default class Game {
         }
         currFrame.rollTwo = rolls.shift();
         frame++;
+        if (currFrame.rollOne + currFrame.rollTwo > 10) throw new Error('Invalid move.');
       } else {
         // Handle frame 10
         const tenthFrame = currFrame as TenthFrame;

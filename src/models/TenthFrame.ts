@@ -6,7 +6,7 @@ export default class TenthFrame extends Frame {
   private _roll3?: TRoll;
 
   constructor(game: Game) {
-    super(game);
+    super(game, 10);
   }
 
   get rollThree() {
