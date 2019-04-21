@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import Game from './logic/Game';
-import { RollInputContainer } from './components/RollInput';
-import { FrameDisplayContainer } from './components/FrameDisplay';
+import Game from './Game';
+import { RollInputContainer, ResetButton, FrameDisplayContainer } from './components/';
 import { TRoll } from './types';
-import { ResetButton } from './components/ResetButton';
 
 type AppState = {
   game: Game;

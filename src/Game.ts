@@ -1,6 +1,6 @@
-import { TRoll } from '../types';
-import Frame from '../models/Frame';
-import TenthFrame from '../models/TenthFrame';
+import { TRoll } from './types';
+import Frame from './models/Frame';
+import TenthFrame from './models/TenthFrame';
 
 export default class Game {
   constructor() {

@@ -1,5 +1,5 @@
 import { TRoll } from '../types';
-import Game from '../logic/Game';
+import Game from '../Game';
 
 export default class Frame {
   private _roll1?: TRoll;

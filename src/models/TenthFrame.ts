@@ -1,5 +1,5 @@
 import Frame from './Frame';
-import Game from '../logic/Game';
+import Game from '../Game';
 import { TRoll } from '../types';
 
 export default class TenthFrame extends Frame {
