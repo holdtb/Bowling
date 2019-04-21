@@ -42,6 +42,7 @@ class App extends Component<{}, AppState> {
     return (
       <div style={{ alignContent: 'center', textAlign: 'center', justifyContent: 'center' }}>
         <RollInputContainer
+          gameOver={this.state.game.gameOver}
           frameNumber={this.state.game.frameNumber}
           currentRoll={this.state.game.rollCount}
           pinsRemaining={this.state.game.pinsRemaining}

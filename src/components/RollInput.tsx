@@ -36,6 +36,7 @@ type RollInputContainerProps = {
   pinsRemaining: number;
   currentRoll: number;
   frameNumber: number;
+  gameOver: Boolean;
 };
 export class RollInputContainer extends Component<RollInputContainerProps, {}> {
   constructor(props: RollInputContainerProps) {
@@ -43,7 +44,8 @@ export class RollInputContainer extends Component<RollInputContainerProps, {}> {
   }
 
   render() {
-    const isEnabled = (pinNumber: number) => this.props.pinsRemaining >= pinNumber;
+    const isEnabled = (pinNumber: number) =>
+      this.props.pinsRemaining >= pinNumber && !this.props.gameOver;
     const rollInputs = range(0, 10).map((_, num) => {
       return (
         <RollInput

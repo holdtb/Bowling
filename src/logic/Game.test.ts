@@ -4,18 +4,21 @@ describe('Given a game of bowling', () => {
   it('Empty game has no score', () => {
     const game = new Game();
     expect(game.totalScore).toEqual(0);
+    expect(game.gameOver).toBeFalsy();
   });
 
   it('Scores a gutter game', () => {
     const game = new Game();
     game.roll(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
     expect(game.totalScore).toEqual(0);
+    expect(game.gameOver).toBeTruthy();
   });
 
   it('Roll a 6', () => {
     const game = new Game();
     game.roll(6);
     expect(game.totalScore).toEqual(6);
+    expect(game.gameOver).toBeFalsy();
   });
 
   it('Handles spares', () => {
@@ -23,6 +26,7 @@ describe('Given a game of bowling', () => {
     game.roll(5, 5, 6);
     const expected = 5 + 5 + 6 + 6;
     expect(game.totalScore).toEqual(expected);
+    expect(game.gameOver).toBeFalsy();
   });
 
   it('Handles strikes', () => {
@@ -30,6 +34,7 @@ describe('Given a game of bowling', () => {
     game.roll(10, 4, 5);
     const expected = 10 + 9 + 9;
     expect(game.totalScore).toEqual(expected);
+    expect(game.gameOver).toBeFalsy();
   });
 
   it('Scores a full game', () => {
@@ -45,12 +50,14 @@ describe('Given a game of bowling', () => {
     game.roll(10); // 9
     game.roll(10, 8, 1); // 10
     expect(game.totalScore).toEqual(167);
+    expect(game.gameOver).toBeTruthy();
   });
 
   it('A perfect game scores 300', () => {
     const game = new Game();
     game.roll(10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10);
     expect(game.totalScore).toEqual(300);
+    expect(game.gameOver).toBeTruthy();
   });
 
   it('Tenth frame bonus ball only valid if mark on first two rolls', () => {
@@ -66,6 +73,7 @@ describe('Given a game of bowling', () => {
     game.roll(0, 0); // 9
     game.roll(0, 0, 1); // 10;
     expect(game.totalScore).toEqual(0);
+    expect(game.gameOver).toBeTruthy();
   });
 
   it('Catches invalid moves', () => {

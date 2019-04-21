@@ -15,6 +15,7 @@ export default class Game {
     this._pinsRemaining = 10;
     this._rollCount = 0;
     this._tenthFrameMark = false;
+    this._gameOver = false;
   }
 
   private _rolls: Array<TRoll>;
@@ -23,12 +24,18 @@ export default class Game {
   private _pinsRemaining: number;
   private _rollCount: number;
   private _tenthFrameMark: boolean;
+  private _gameOver = false;
+
   get pinsRemaining() {
     return this._pinsRemaining;
   }
 
   get frames() {
     return this._frames;
+  }
+
+  get gameOver() {
+    return this._gameOver;
   }
 
   get frameNumber() {
@@ -86,8 +93,10 @@ export default class Game {
       tenthFrame.rollOne = roll;
     } else if (this.rollCount == 1) {
       tenthFrame.rollTwo = roll;
+      if (this._pinsRemaining - roll > 0) this._gameOver = true;
     } else if (this._tenthFrameMark) {
       tenthFrame.rollThree = roll;
+      this._gameOver = true;
     }
 
     this._pinsRemaining -= roll;
