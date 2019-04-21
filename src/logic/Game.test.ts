@@ -53,6 +53,21 @@ describe('Given a game of bowling', () => {
     expect(game.totalScore).toEqual(300);
   });
 
+  it('Tenth frame bonus ball only valid if mark on first two rolls', () => {
+    const game = new Game();
+    game.roll(0, 0); // Frame 1
+    game.roll(0, 0); // 2
+    game.roll(0, 0); // 3
+    game.roll(0, 0); // 4
+    game.roll(0, 0); // 5
+    game.roll(0, 0); // 6
+    game.roll(0, 0); // 7
+    game.roll(0, 0); // 8
+    game.roll(0, 0); // 9
+    game.roll(0, 0, 1); // 10;
+    expect(game.totalScore).toEqual(0);
+  });
+
   it('Catches invalid moves', () => {
     const game = new Game();
     const fn = () => game.roll(7, 4);

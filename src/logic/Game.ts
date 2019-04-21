@@ -11,50 +11,97 @@ export default class Game {
       this._frames.push(new Frame(this, i + 1));
     }
     this._frames.push(new TenthFrame(this));
+    this._frameNumber = 1;
+    this._pinsRemaining = 10;
+    this._rollCount = 0;
+    this._tenthFrameMark = false;
   }
 
   private _rolls: Array<TRoll>;
   private _frames: Array<Frame>;
+  private _frameNumber: number;
+  private _pinsRemaining: number;
+  private _rollCount: number;
+  private _tenthFrameMark: boolean;
+  get pinsRemaining() {
+    return this._pinsRemaining;
+  }
 
   get frames() {
     return this._frames;
   }
 
-  public roll(...rolls: TRoll[]): number {
-    this._rolls.push(...rolls);
-    return this.totalScore;
+  get frameNumber() {
+    return this._frameNumber;
+  }
+
+  get rollCount() {
+    return this._rollCount;
   }
 
   get totalScore() {
-    return this._calculateTotalScore();
+    return this.frames.reduce((accum, frame) => accum + frame.score, 0);
   }
 
-  private _calculateTotalScore() {
-    const rolls = this._rolls.slice(0); // clone rolls[]
-    let frame = 0;
+  private get isFirstRoll() {
+    return this.rollCount == 0;
+  }
 
-    while (rolls.length > 0) {
-      let currFrame = this._frames[frame];
-      if (frame < 9) {
-        currFrame.rollOne = rolls.shift();
-        if (currFrame.rollOne == 10) {
-          // we striked, move on to next frame
-          frame++;
-          continue;
-        }
-        currFrame.rollTwo = rolls.shift();
-        frame++;
-        if (currFrame.rollOne + currFrame.rollTwo > 10) throw new Error('Invalid move.');
+  private get currentFrame() {
+    return this.frames[this._frameNumber - 1];
+  }
+
+  public roll(...rolls: TRoll[]) {
+    this._rolls.push(...rolls);
+
+    for (let i = 0; i < rolls.length; i++) {
+      let roll = rolls[i];
+      if (roll > this.pinsRemaining) throw new Error('Invalid move.');
+
+      if (this._frameNumber != 10) this.handleStandardFrameRoll(roll);
+      else this.handleTenthFrameRoll(roll);
+    }
+  }
+
+  private handleStandardFrameRoll(roll: TRoll) {
+    if (this.isFirstRoll) {
+      this.currentFrame.rollOne = roll;
+      if (roll == 10) {
+        // Strike
+        this.nextFrame();
       } else {
-        // Handle frame 10
-        const tenthFrame = currFrame as TenthFrame;
-        tenthFrame.rollOne = rolls.shift();
-        tenthFrame.rollTwo = rolls.shift();
-        tenthFrame.rollThree = rolls.shift();
+        this._pinsRemaining -= roll;
+        this._rollCount++;
       }
+    } else {
+      // second roll
+      this.currentFrame.rollTwo = roll;
+      this.nextFrame();
+    }
+  }
+
+  private handleTenthFrameRoll(roll: TRoll) {
+    const tenthFrame = this.currentFrame as TenthFrame;
+    if (this.rollCount == 0) {
+      tenthFrame.rollOne = roll;
+    } else if (this.rollCount == 1) {
+      tenthFrame.rollTwo = roll;
+    } else if (this._tenthFrameMark) {
+      tenthFrame.rollThree = roll;
     }
 
-    let frameScores = this._frames.map(frame => frame.score);
-    return frameScores.reduce((accum, score) => accum + score, 0);
+    this._pinsRemaining -= roll;
+    this._rollCount++;
+
+    if (this._pinsRemaining == 0) {
+      this._tenthFrameMark = true;
+      this._pinsRemaining = 10;
+    }
+  }
+
+  private nextFrame() {
+    this._frameNumber++;
+    this._pinsRemaining = 10;
+    this._rollCount = 0;
   }
 }

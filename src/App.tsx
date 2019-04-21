@@ -31,17 +31,22 @@ class App extends Component<{}, AppState> {
 
   handleRoll(roll: TRoll) {
     let game = this.state.game;
-    const totalScore = game.roll(roll);
+    game.roll(roll);
     this.setState({
       game,
-      totalScore
+      totalScore: game.totalScore
     });
   }
 
   render() {
     return (
       <div style={{ alignContent: 'center', textAlign: 'center', justifyContent: 'center' }}>
-        <RollInputContainer onRoll={this.handleRoll} />
+        <RollInputContainer
+          frameNumber={this.state.game.frameNumber}
+          currentRoll={this.state.game.rollCount}
+          pinsRemaining={this.state.game.pinsRemaining}
+          onRoll={this.handleRoll}
+        />
         <FrameDisplayContainer game={this.state.game} />
         Total score: {this.state.totalScore}
         <button style={{ padding: 10, margin: 10 }} onClick={this.resetGame}>

@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 
 export type RollInputProps = {
   onClickHandler: Function;
-  rollNumber: number;
-  altDisplay?: string;
+  pins: number;
+  enabled: boolean;
+  rollCount: number;
+  frameNumber: number;
 };
 export class RollInput extends Component<RollInputProps, {}> {
   constructor(props: RollInputProps) {
@@ -12,12 +14,18 @@ export class RollInput extends Component<RollInputProps, {}> {
   }
 
   handleOnClick() {
-    this.props.onClickHandler(this.props.rollNumber);
+    this.props.onClickHandler(this.props.pins);
   }
   render() {
+    let altDisplay = '';
+    if (this.props.pins == 0) altDisplay = 'Gutter';
+    if (this.props.pins == 10 && this.props.rollCount == 0) altDisplay = 'Strike';
     return (
-      <button style={{ padding: 10, margin: 5 }} onClick={this.handleOnClick}>
-        {this.props.altDisplay || this.props.rollNumber}
+      <button
+        disabled={!this.props.enabled}
+        style={{ padding: 10, margin: 5 }}
+        onClick={this.handleOnClick}>
+        {altDisplay || this.props.pins}
       </button>
     );
   }
@@ -25,6 +33,9 @@ export class RollInput extends Component<RollInputProps, {}> {
 
 type RollInputContainerProps = {
   onRoll: Function;
+  pinsRemaining: number;
+  currentRoll: number;
+  frameNumber: number;
 };
 export class RollInputContainer extends Component<RollInputContainerProps, {}> {
   constructor(props: RollInputContainerProps) {
@@ -32,20 +43,24 @@ export class RollInputContainer extends Component<RollInputContainerProps, {}> {
   }
 
   render() {
-    return (
-      <div style={{ marginBottom: 25 }}>
-        <RollInput rollNumber={0} altDisplay="Gutter" onClickHandler={this.props.onRoll} />
-        <RollInput rollNumber={1} onClickHandler={this.props.onRoll} />
-        <RollInput rollNumber={2} onClickHandler={this.props.onRoll} />
-        <RollInput rollNumber={3} onClickHandler={this.props.onRoll} />
-        <RollInput rollNumber={4} onClickHandler={this.props.onRoll} />
-        <RollInput rollNumber={5} onClickHandler={this.props.onRoll} />
-        <RollInput rollNumber={6} onClickHandler={this.props.onRoll} />
-        <RollInput rollNumber={7} onClickHandler={this.props.onRoll} />
-        <RollInput rollNumber={8} onClickHandler={this.props.onRoll} />
-        <RollInput rollNumber={9} onClickHandler={this.props.onRoll} />
-        <RollInput rollNumber={10} altDisplay="Strike" onClickHandler={this.props.onRoll} />
-      </div>
-    );
+    const isEnabled = (pinNumber: number) => this.props.pinsRemaining >= pinNumber;
+    const rollInputs = range(0, 10).map((_, num) => {
+      return (
+        <RollInput
+          key={num}
+          frameNumber={this.props.frameNumber}
+          rollCount={this.props.currentRoll}
+          enabled={isEnabled(num)}
+          pins={num}
+          onClickHandler={this.props.onRoll}
+        />
+      );
+    });
+
+    return <div style={{ marginBottom: 25 }}>{rollInputs}</div>;
   }
+}
+
+function range(start: number, end: number) {
+  return [...Array(1 + end - start).keys()].map(v => start + v);
 }
