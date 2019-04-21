@@ -3,6 +3,7 @@ import Game from './logic/Game';
 import { RollInputContainer } from './components/RollInput';
 import { FrameDisplayContainer } from './components/FrameDisplay';
 import { TRoll } from './types';
+import { ResetButton } from './components/ResetButton';
 
 type AppState = {
   game: Game;
@@ -50,9 +51,7 @@ class App extends Component<{}, AppState> {
         />
         <FrameDisplayContainer game={this.state.game} />
         Total score: {this.state.totalScore}
-        <button style={{ padding: 10, margin: 10 }} onClick={this.resetGame}>
-          Reset Game
-        </button>
+        <ResetButton onClickHandler={this.resetGame} />
       </div>
     );
   }
