@@ -30,7 +30,7 @@ export default class Game {
   }
 
   private _calculateTotalScore() {
-    const rolls = this._rolls.slice(0); // clone rolls
+    const rolls = this._rolls.slice(0); // clone rolls[]
     let frame = 0;
 
     while (rolls.length > 0) {

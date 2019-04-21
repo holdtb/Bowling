@@ -31,8 +31,7 @@ class App extends Component<{}, AppState> {
 
   handleRoll(roll: TRoll) {
     let game = this.state.game;
-    game.roll(roll);
-    const totalScore = game.totalScore;
+    const totalScore = game.roll(roll);
     this.setState({
       game,
       totalScore
@@ -41,9 +40,7 @@ class App extends Component<{}, AppState> {
 
   render() {
     return (
-      <div
-        style={{ alignContent: 'center', textAlign: 'center', justifyContent: 'center' }}
-        className="App">
+      <div style={{ alignContent: 'center', textAlign: 'center', justifyContent: 'center' }}>
         <RollInputContainer onRoll={this.handleRoll} />
         <FrameDisplayContainer game={this.state.game} />
         Total score: {this.state.totalScore}
