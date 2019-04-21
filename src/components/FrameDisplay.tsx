@@ -12,7 +12,8 @@ type FrameDisplayProps = {
 };
 
 export const FrameDisplay = (props: FrameDisplayProps) => {
-  const displayRunningScore = props.gameFrameNumber >= props.index + 1;
+  const displayRunningScore =
+    props.gameFrameNumber >= props.index + 1 || props.gameFrameNumber == 10;
   const isActive =
     props.gameFrameNumber == props.index + 1 || (props.gameFrameNumber == 10 && props.index == 10);
   const header = <div style={frameHeaderStyle}>Frame {props.frame.number}</div>;

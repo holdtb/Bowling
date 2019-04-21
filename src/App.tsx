@@ -48,7 +48,6 @@ class App extends Component<{}, AppState> {
           onRoll={this.handleRoll}
         />
         <FrameDisplayContainer game={this.state.game} />
-        Total score: {this.state.totalScore}
         <ResetButton onClickHandler={this.resetGame} />
       </div>
     );
