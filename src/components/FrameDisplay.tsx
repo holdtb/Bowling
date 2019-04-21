@@ -10,24 +10,22 @@ type FrameDisplayProps = {
   frame: Frame;
   index: number;
 };
-export class FrameDisplay extends Component<FrameDisplayProps, {}> {
-  render() {
-    const displayRunningScore = this.props.gameFrameNumber >= this.props.index + 1;
-    const isActive =
-      this.props.gameFrameNumber == this.props.index + 1 ||
-      (this.props.gameFrameNumber == 10 && this.props.index == 10);
-    const header = <div style={frameHeaderStyle}>Frame {this.props.frame.number}</div>;
-    const framePts = displayRunningScore ? <div>{this.props.frame.framePts}</div> : '';
-    return (
-      <div
-        style={{
-          ...frameContainerStyle,
-          backgroundColor: isActive ? 'yellow' : 'white'
-        }}>
-        {header}
-        {this.props.rolls}
-        {framePts}
-      </div>
-    );
-  }
-}
+
+export const FrameDisplay = (props: FrameDisplayProps) => {
+  const displayRunningScore = props.gameFrameNumber >= props.index + 1;
+  const isActive =
+    props.gameFrameNumber == props.index + 1 || (props.gameFrameNumber == 10 && props.index == 10);
+  const header = <div style={frameHeaderStyle}>Frame {props.frame.number}</div>;
+  const framePts = displayRunningScore ? <div>{props.frame.framePts}</div> : '';
+  return (
+    <div
+      style={{
+        ...frameContainerStyle,
+        backgroundColor: isActive ? 'yellow' : 'white'
+      }}>
+      {header}
+      {props.rolls}
+      {framePts}
+    </div>
+  );
+};

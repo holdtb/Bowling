@@ -7,6 +7,7 @@ type RollInputProps = {
   rollCount: number;
   frameNumber: number;
 };
+
 export class RollInput extends Component<RollInputProps, {}> {
   constructor(props: RollInputProps) {
     super(props);

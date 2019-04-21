@@ -26,24 +26,18 @@ export class FrameDisplayContainer extends Component<FrameDisplayContainerProps,
     });
   }
 
-  getTenthFrame() {
-    const tenthFrame = this.props.game.frames[this.props.game.frames.length - 1] as TenthFrame;
-    return (
-      <FrameDisplay
-        index={10}
-        frame={tenthFrame}
-        gameFrameNumber={this.props.game.frameNumber}
-        rolls={`${tenthFrame.rollOne || '_'} , ${tenthFrame.rollTwo ||
-          '_'}, ${tenthFrame.rollThree || '_'}`}
-      />
-    );
-  }
-
   render() {
+    const tenthFrame = this.props.game.frames[this.props.game.frames.length - 1] as TenthFrame;
     return (
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
         {this.getStandardFrames()}
-        {this.getTenthFrame()}
+        <FrameDisplay
+          index={10}
+          frame={tenthFrame}
+          gameFrameNumber={this.props.game.frameNumber}
+          rolls={`${tenthFrame.rollOne || '_'} , ${tenthFrame.rollTwo ||
+            '_'}, ${tenthFrame.rollThree || '_'}`}
+        />
       </div>
     );
   }
