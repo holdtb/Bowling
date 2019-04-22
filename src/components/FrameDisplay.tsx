@@ -6,7 +6,7 @@ const frameHeaderStyle = { backgroundColor: 'red', color: 'white' };
 
 type FrameDisplayProps = {
   gameFrameNumber: number;
-  rolls: String;
+  displayText: String;
   frame: Frame;
   index: number;
 };
@@ -25,7 +25,7 @@ export const FrameDisplay = (props: FrameDisplayProps) => {
         backgroundColor: isActive ? 'yellow' : 'white'
       }}>
       {header}
-      {props.rolls}
+      {props.displayText}
       {framePts}
     </div>
   );
